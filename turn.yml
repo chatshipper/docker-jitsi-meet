@@ -3,7 +3,7 @@ version: '3'
 services:
     # coturn TURN server project
     turn:
-        image: jitsi/turn
+        image: gcr.io/chatshipper.com/abiding-idea-822/jitsi-turn:latest
         restart: always
         volumes:
             - ${CONFIG}/turn:/config:Z

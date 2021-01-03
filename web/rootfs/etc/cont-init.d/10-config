@@ -1,5 +1,5 @@
 #!/usr/bin/with-contenv bash
-
+set -x
 # make our folders
 mkdir -p \
     /config/{nginx/site-confs,keys} \
@@ -67,7 +67,7 @@ tpl /defaults/nginx.conf > /config/nginx/nginx.conf
 
 tpl /defaults/meet.conf > /config/nginx/meet.conf
 if [[ -f /config/nginx/custom-meet.conf ]]; then
-    cat /config/nginx/custom-meet.conf >> /config/nginx/meet.conf
+    cp -f /config/nginx/custom-meet.conf /config/nginx/meet.conf
 fi
 
 tpl /defaults/ssl.conf > /config/nginx/ssl.conf

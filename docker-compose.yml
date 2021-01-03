@@ -3,7 +3,13 @@ version: '3'
 services:
     # Frontend
     web:
-        image: jitsi/web:latest
+        logging:
+          driver: "fluentd"
+          options:
+            fluentd-address: 0.0.0.0:24224
+            fluentd-async-connect: "true"
+            tag: httpd.access
+        image: gcr.io/chatshipper.com/abiding-idea-822/jitsi-web:latest
         restart: ${RESTART_POLICY}
         ports:
             - '${HTTP_PORT}:80'
@@ -105,7 +111,13 @@ services:
 
     # XMPP server
     prosody:
-        image: jitsi/prosody:latest
+        logging:
+          driver: "fluentd"
+          options:
+            fluentd-address: 0.0.0.0:24224
+            fluentd-async-connect: "true"
+            tag: prosody
+        image: gcr.io/chatshipper.com/abiding-idea-822/jitsi-prosody:latest
         restart: ${RESTART_POLICY}
         expose:
             - '5222'
@@ -169,6 +181,7 @@ services:
             - TZ
             - ENABLE_TURN
             - TURN_SECRET
+            - TURN_TYPE
             - TURN_HOST
             - TURN_PORT
             - TURN_TRANSPORT
@@ -179,7 +192,13 @@ services:
 
     # Focus component
     jicofo:
-        image: jitsi/jicofo:latest
+        logging:
+          driver: "fluentd"
+          options:
+            fluentd-address: 0.0.0.0:24224
+            fluentd-async-connect: "true"
+            tag: jicofo
+        image: gcr.io/chatshipper.com/abiding-idea-822/jitsi-jicofo:latest
         restart: ${RESTART_POLICY}
         volumes:
             - ${CONFIG}/jicofo:/config:Z
@@ -225,7 +244,13 @@ services:
 
     # Video bridge
     jvb:
-        image: jitsi/jvb:latest
+        logging:
+          driver: "fluentd"
+          options:
+            fluentd-address: 0.0.0.0:24224
+            fluentd-async-connect: "true"
+            tag: jvb
+        image: gcr.io/chatshipper.com/abiding-idea-822/jitsi-jvb:latest
         restart: ${RESTART_POLICY}
         ports:
             - '${JVB_PORT}:${JVB_PORT}/udp'
